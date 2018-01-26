@@ -4,7 +4,7 @@
 	<version>0.0.0</version>
 	<description>The murdoch package</description>
 	<maintainer email="adrianohrl@unifei.edu.br">Adriano Henrique Rossette Leite</maintainer>
-	<author email=="adrianohrl@unifei.edu.br">Adriano Henrique Rossette Leite</author>
+ <author email="adrianohrl@unifei.edu.br">Adriano Henrique Rossette Leite</author>
 	<license>BSD</license>
 
 	<buildtool_depend>catkin</buildtool_depend>
