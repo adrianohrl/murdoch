@@ -2,8 +2,8 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.2 (2018-01-26)
+------------------
 * created auctioneer and bidder nodes
 * Contributors: adrianohrl
 
