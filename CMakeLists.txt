@@ -27,38 +27,23 @@ set(CPP_FILES
 )
 
 set(H_FILES
+  include/murdoch/agent_node.h
   include/utilities/exception.h
   include/utilities/ros_node.h
 )
 
-add_executable(auctioneer_node
-  src/murdoch/auctioneer_node.cpp
-  src/auctioneer_node.cpp
+add_executable(agent_node
+  src/murdoch/agent_node.cpp
+  src/agent_node.cpp
   ${CPP_FILES}
 )
 
-add_dependencies(auctioneer_node
+add_dependencies(agent_node
   ${catkin_EXPORTED_TARGETS}
   ${talmech_EXPORTED_TARGETS}
 )
 
-target_link_libraries(auctioneer_node
-  ${catkin_LIBRARIES}
-  ${talmech_LIBRARIES}
-)
-
-add_executable(bidder_node 
-  src/murdoch/bidder_node.cpp
-  src/bidder_node.cpp
-  ${CPP_FILES}
-)
-
-add_dependencies(bidder_node
-  ${catkin_EXPORTED_TARGETS}
-  ${talmech_EXPORTED_TARGETS}
-)
-
-target_link_libraries(bidder_node
+target_link_libraries(agent_node
   ${catkin_LIBRARIES}
   ${talmech_LIBRARIES}
 )
