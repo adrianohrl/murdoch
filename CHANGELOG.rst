@@ -2,6 +2,12 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* created a generic agent node
+* package is organized now
+* Contributors: adrianohrl
+
 0.0.2 (2018-01-26)
 ------------------
 * created auctioneer and bidder nodes
