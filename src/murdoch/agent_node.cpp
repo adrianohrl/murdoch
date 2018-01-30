@@ -9,6 +9,8 @@ AgentNode::AgentNode(const ros::NodeHandlePtr& nh, const ros::Rate& rate)
 {
 }
 
+AgentNode::~AgentNode() { task_sub_.shutdown(); }
+
 void AgentNode::readParameters()
 {
   ros::NodeHandle pnh("~");
@@ -25,11 +27,25 @@ void AgentNode::readParameters()
   talmech::RolePtr role;
   if (role_type == "auctioneer")
   {
-    role.reset(new talmech::auction::Auctioneer(nh_));
+    double auction_duration;
+    pnh.param("auction_duration", auction_duration, 1.5);
+    double renewal_rate;
+    pnh.param("renewal_rate", renewal_rate, 2.0);
+    bool sorted_insertion;
+    pnh.param("sorted_insertion", sorted_insertion, true);
+    bool reallocation;
+    pnh.param("reallocation", reallocation, true);
+    bool bid_update;
+    pnh.param("bid_update", bid_update, false);
+    role.reset(new talmech::auction::Auctioneer(nh_, ros::Duration(auction_duration),
+                                                ros::Rate(renewal_rate), sorted_insertion,
+                                                reallocation, bid_update));
+    task_sub_ = nh_->subscribe("task", 10, &AgentNode::taskCallback, this);
   }
   else
   {
-    role.reset(new talmech::auction::Bidder(nh_, talmech::auction::MetricsEvaluatorPtr()));
+    role.reset(new talmech::auction::Bidder(
+        nh_, talmech::auction::MetricsEvaluatorPtr()));
   }
   if (agent_type == "agent")
   {
@@ -38,6 +54,22 @@ void AgentNode::readParameters()
   else
   {
     agent_.reset(new talmech::Robot(id, role));
+  }
+}
+
+void AgentNode::taskCallback(const std_msgs::String& msg)
+{
+  talmech::TaskPtr task(new talmech::Task(msg.data));
+  talmech::auction::AuctioneerPtr auctioneer(
+      boost::dynamic_pointer_cast<talmech::auction::Auctioneer>(
+          agent_->getRole()));
+  if (auctioneer->auction(task))
+  {
+    ROS_INFO_STREAM("[AgentNode] Auctioning " << *task << "...");
+  }
+  else
+  {
+    ROS_WARN_STREAM("[AgentNode] Unable to auction " << *task << "...");
   }
 }
 }

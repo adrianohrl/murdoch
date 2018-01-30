@@ -1,1 +1,6 @@
 type: 'agent'
+auction_duration: 2.0
+renewal_rate: 2.5
+sorted_insertion: false
+reallocation: false
+bid_update: false
