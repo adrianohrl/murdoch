@@ -2,8 +2,8 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2018-01-30)
+------------------
 * created a generic agent node
 * package is organized now
 * Contributors: adrianohrl
