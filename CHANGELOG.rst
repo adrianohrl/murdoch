@@ -2,6 +2,11 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fixed role signature
+* Contributors: adrianohrl
+
 0.0.3 (2018-01-30)
 ------------------
 * created a generic agent node
