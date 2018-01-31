@@ -4,7 +4,7 @@
 #include <talmech/agent.h>
 #include "utilities/ros_node.h"
 #include <ros/subscriber.h>
-#include <std_msgs/String.h>
+#include <talmech_msgs/Task.h>
 
 namespace murdoch
 {
@@ -23,7 +23,7 @@ private:
   ros::Subscriber task_sub_;
   virtual bool isSettedUp() { return agent_; }
   virtual void controlLoop() { agent_->process(); }
-  void taskCallback(const std_msgs::String& msg);
+  void taskCallback(const talmech_msgs::Task& msg);
 };
 typedef AgentNode::Ptr AgentNodePtr;
 typedef AgentNode::ConstPtr AgentNodeConstPtr;

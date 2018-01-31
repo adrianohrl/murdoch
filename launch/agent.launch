@@ -5,7 +5,7 @@
   <arg name="params" default="$(find murdoch)/config/$(arg id)_params.yaml"/>
   <group ns="$(arg id)">
     <group ns="murdoch">
-      <node name="$(arg role)_node" pkg="murdoch" type="agent_node" output="screen">
+      <node name="$(arg role)_node" pkg="murdoch" type="agent_node" output="screen" launch-prefix="valgrind">
         <param name="id" type="string" value="$(arg id)" />
         <param name="role" type="string" value="$(arg role)" />
         <rosparam file="$(arg params)" command="load" />

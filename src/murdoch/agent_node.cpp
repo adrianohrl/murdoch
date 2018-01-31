@@ -33,19 +33,23 @@ void AgentNode::readParameters()
     pnh.param("renewal_rate", renewal_rate, 2.0);
     bool sorted_insertion;
     pnh.param("sorted_insertion", sorted_insertion, true);
-    bool reallocation;
-    pnh.param("reallocation", reallocation, true);
+    bool reauction;
+    pnh.param("reauction", reauction, true);
     bool bid_update;
     pnh.param("bid_update", bid_update, false);
-    role.reset(new talmech::auction::Auctioneer(nh_, ros::Duration(auction_duration),
-                                                ros::Rate(renewal_rate), sorted_insertion,
-                                                reallocation, bid_update));
-    task_sub_ = nh_->subscribe("task", 10, &AgentNode::taskCallback, this);
+    int max_size;
+    pnh.param("max_size", max_size, 1);
+    role.reset(new talmech::auction::Auctioneer(id,
+        nh_, ros::Duration(auction_duration), ros::Rate(renewal_rate),
+        sorted_insertion, reauction, bid_update, max_size));
+    task_sub_ = nh_->subscribe("/murdoch/task", 10, &AgentNode::taskCallback, this);
   }
   else
   {
-    role.reset(new talmech::auction::Bidder(
-        nh_, talmech::auction::MetricsEvaluatorPtr()));
+    int max_size;
+    pnh.param("max_size", max_size, 1);
+    role.reset(new talmech::auction::Bidder(id,
+        nh_, talmech::auction::MetricsEvaluatorPtr(), max_size));
   }
   if (agent_type == "agent")
   {
@@ -57,9 +61,9 @@ void AgentNode::readParameters()
   }
 }
 
-void AgentNode::taskCallback(const std_msgs::String& msg)
+void AgentNode::taskCallback(const talmech_msgs::Task& msg)
 {
-  talmech::TaskPtr task(new talmech::Task(msg.data));
+  talmech::TaskPtr task(new talmech::Task(msg));
   talmech::auction::AuctioneerPtr auctioneer(
       boost::dynamic_pointer_cast<talmech::auction::Auctioneer>(
           agent_->getRole()));
