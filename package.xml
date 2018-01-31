@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
 	<name>murdoch</name>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<description>The murdoch package</description>
 	<maintainer email="adrianohrl@unifei.edu.br">Adriano Henrique Rossette Leite</maintainer>
  <author email="adrianohrl@unifei.edu.br">Adriano Henrique Rossette Leite</author>
