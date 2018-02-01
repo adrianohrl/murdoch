@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="id" default="bidder1" />
+  <arg name="id" default="bidder3" />
   <include file="$(find murdoch)/launch/agent.launch" >
     <arg name="id" value="$(arg id)" />
     <arg name="role" value="bidder" />

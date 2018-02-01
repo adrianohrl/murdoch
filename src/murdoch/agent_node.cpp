@@ -1,6 +1,8 @@
 #include "murdoch/agent_node.h"
-#include <talmech/auction/auctioneer.h>
-#include <talmech/auction/bidder.h>
+#include <talmech/auction/auctioneer_agent.h>
+#include <talmech/auction/auctioneer_robot.h>
+#include <talmech/auction/bidder_agent.h>
+#include <talmech/auction/bidder_robot.h>
 
 namespace murdoch
 {
@@ -20,44 +22,43 @@ void AgentNode::readParameters()
   pnh.param("id", id, std::string(""));
   if (id.empty())
   {
-    throw utilities::Exception("The agent id must not be null");
+    throw utilities::Exception("The agent id must not be null.");
   }
   std::string role_type;
   pnh.param("role", role_type, std::string("bidder"));
-  talmech::RolePtr role;
-  if (role_type == "auctioneer")
-  {
-    double auction_duration;
-    pnh.param("auction_duration", auction_duration, 1.5);
-    double renewal_rate;
-    pnh.param("renewal_rate", renewal_rate, 2.0);
-    bool sorted_insertion;
-    pnh.param("sorted_insertion", sorted_insertion, true);
-    bool reauction;
-    pnh.param("reauction", reauction, true);
-    bool bid_update;
-    pnh.param("bid_update", bid_update, false);
-    int max_size;
-    pnh.param("max_size", max_size, 1);
-    role.reset(new talmech::auction::Auctioneer(id,
-        nh_, ros::Duration(auction_duration), ros::Rate(renewal_rate),
-        sorted_insertion, reauction, bid_update, max_size));
-    task_sub_ = nh_->subscribe("/murdoch/task", 10, &AgentNode::taskCallback, this);
-  }
-  else
-  {
-    int max_size;
-    pnh.param("max_size", max_size, 1);
-    role.reset(new talmech::auction::Bidder(id,
-        nh_, talmech::auction::MetricsEvaluatorPtr(), max_size));
-  }
   if (agent_type == "agent")
   {
-    agent_.reset(new talmech::Agent(id, role));
+    if (role_type == "auctioneer")
+    {
+      agent_.reset(new talmech::auction::AuctioneerAgent(nh_, id));
+    }
+    else if (role_type == "bidder")
+    {
+      agent_.reset(new talmech::auction::BidderAgent(nh_, id));
+    }
+    else
+    {
+      throw utilities::Exception("Unknown role type.");
+    }
+  }
+  else if (agent_type == "robot")
+  {
+    if (role_type == "auctioneer")
+    {
+      agent_.reset(new talmech::auction::AuctioneerRobot(nh_, id));
+    }
+    else if (role_type == "bidder")
+    {
+      agent_.reset(new talmech::auction::BidderRobot(nh_, id));
+    }
+    else
+    {
+      throw utilities::Exception("Unknown role type.");
+    }
   }
   else
   {
-    agent_.reset(new talmech::Robot(id, role));
+    throw utilities::Exception("Unknown agent type.");
   }
 }
 
