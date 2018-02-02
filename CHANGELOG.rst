@@ -2,8 +2,8 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.5 (2018-02-01)
+------------------
 * removed task callback from agent node
 * altered agents factory
 * Contributors: adrianohrl
