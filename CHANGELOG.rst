@@ -2,6 +2,12 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* removed task callback from agent node
+* altered agents factory
+* Contributors: adrianohrl
+
 0.0.4 (2018-01-31)
 ------------------
 * fixed role signature
