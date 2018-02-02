@@ -11,8 +11,6 @@ AgentNode::AgentNode(const ros::NodeHandlePtr& nh, const ros::Rate& rate)
 {
 }
 
-AgentNode::~AgentNode() { task_sub_.shutdown(); }
-
 void AgentNode::readParameters()
 {
   ros::NodeHandle pnh("~");
@@ -59,22 +57,6 @@ void AgentNode::readParameters()
   else
   {
     throw utilities::Exception("Unknown agent type.");
-  }
-}
-
-void AgentNode::taskCallback(const talmech_msgs::Task& msg)
-{
-  talmech::TaskPtr task(new talmech::Task(msg));
-  talmech::auction::AuctioneerPtr auctioneer(
-      boost::dynamic_pointer_cast<talmech::auction::Auctioneer>(
-          agent_->getRole()));
-  if (auctioneer->auction(task))
-  {
-    ROS_INFO_STREAM("[AgentNode] Auctioning " << *task << "...");
-  }
-  else
-  {
-    ROS_WARN_STREAM("[AgentNode] Unable to auction " << *task << "...");
   }
 }
 }

@@ -4,3 +4,6 @@ renewal_rate: 2.5
 sorted_insertion: false
 reauction: false
 bid_update: false
+topic_name: "/murdoch/task"
+queue_size: 10
+max_size: 2
