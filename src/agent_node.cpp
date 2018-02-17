@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "auctioneer_node");
+  ros::init(argc, argv, "agent_node");
   ros::NodeHandlePtr nh(new ros::NodeHandle());
   murdoch::AgentNodePtr node(new murdoch::AgentNode(nh));
   node->run();

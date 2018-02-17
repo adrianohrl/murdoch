@@ -20,7 +20,7 @@ protected:
   virtual void readParameters();
 private:
   ros::Subscriber task_sub_;
-  virtual bool isSettedUp() { return agent_; }
+  virtual bool isSettedUp() { return agent_.get(); }
   virtual void controlLoop() { agent_->process(); }
 };
 typedef AgentNode::Ptr AgentNodePtr;

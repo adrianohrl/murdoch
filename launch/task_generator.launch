@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="params" default="$(find murdoch)/config/task_generator_params.yaml"/>
+  <group ns="murdoch">
+    <node name="task_generator_node" pkg="murdoch" type="task_generator_node" output="screen" launch-prefix="valgrind">
+      <rosparam file="$(arg params)" command="load" />
+    </node>
+  </group>
+</launch>

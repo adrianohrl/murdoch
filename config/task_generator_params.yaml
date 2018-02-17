@@ -1,0 +1,38 @@
+cycle_duration:
+  mean: 15
+  standard_deviation: 5
+waypoints:
+  mean: 7
+  standard_deviation: 5
+  x:
+    mean: 0
+    standard_deviation: 10
+  y:
+    mean: 0
+    standard_deviation: 10
+skills:
+  size: 5
+  skill0:
+    resource: 'camera'
+    type: 0
+  skill1:
+    resource: 'battery'
+    type: 2
+    level:
+      mean: 0.6
+      standard_deviation: 0.2
+  skill2:
+    resource: 'processor'
+    type: 1
+    level:
+      mean: 4
+      standard_deviation: 1
+  skill3:
+    resource: 'strengh'
+    type: 2
+    level:
+      mean: 5.6
+      standard_deviation: 3.4
+  skill4:
+    resource: 'laserscan'
+    type: 0
