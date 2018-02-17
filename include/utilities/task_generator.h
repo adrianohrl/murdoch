@@ -3,6 +3,7 @@
 
 #include "random_generator.h"
 #include <ros/publisher.h>
+#include "noisy_bool.h"
 #include "noisy_double.h"
 #include "noisy_long.h"
 #include <talmech/skill.h>
@@ -21,11 +22,8 @@ public:
   NoisyDoublePtr level_;
   talmech_msgs::Skill toMsg() const
   {
+    skill_->setLevel(level_->random());
     talmech_msgs::Skill msg(skill_->toMsg());
-    if (msg.type != 0)
-    {
-      msg.level = level_->random();
-    }
     return msg;
   }
 };
@@ -52,6 +50,7 @@ private:
   NoisyDoublePtr waypoint_x_;
   NoisyDoublePtr waypoint_y_;
   NoisySkillsPtr skills_;
+  NoisyBoolPtr noisy_choice_;
   virtual void generate();
 };
 typedef TaskGenerator::Ptr TaskGeneratorPtr;

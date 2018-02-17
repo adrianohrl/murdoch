@@ -39,8 +39,10 @@ set(H_FILES
   include/utilities/exception.h
   include/utilities/interval.h
   include/utilities/noisy.h
+  include/utilities/noisy_bool.h
   include/utilities/noisy_double.h
   include/utilities/noisy_duration.h
+  include/utilities/noisy_long.h
   include/utilities/noisy_time.h
   include/utilities/probability_density_function.h
   include/utilities/random_generator.h

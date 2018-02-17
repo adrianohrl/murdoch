@@ -13,7 +13,7 @@ TaskGenerator::TaskGenerator(const ros::NodeHandlePtr& nh,
                              const NoisySkillsPtr& skills)
     : RandomGenerator(cycle_duration), nh_(nh), counter_(1),
       waypoint_x_(waypoint_x), waypoints_(waypoints), waypoint_y_(waypoint_y),
-      skills_(skills)
+      skills_(skills), noisy_choice_(new NoisyBool())
 {
   publisher_ = nh_->advertise<talmech_msgs::Task>("/murdoch/task", 1);
 }
@@ -24,21 +24,30 @@ void TaskGenerator::generate()
   std::stringstream ss;
   ss << "task" << counter_++;
   msg.id = ss.str();
-  long size(skills_.size());
-  srand(time(NULL));
-  for (int i(0); i < size; i++)
+  ROS_INFO_STREAM("[TaskGenerator::generate()] id: " << msg.id);
+  for (int i(0); i < skills_.size(); i++)
   {
-    std::size_t index(rand() % skills_.size());
-    ROS_INFO_STREAM("[TaskGenerator::generate()] index: " << index);
-    NoisySkillPtr skill(skills_.at(index));
-    msg.skills.push_back(skill->toMsg());
+    if (noisy_choice_->random())
+    {
+      NoisySkillPtr skill(skills_.at(i));
+      ROS_INFO_STREAM("[TaskGenerator::generate()] index: " << i << ", skill: " << *skill->skill_);
+      msg.skills.push_back(skill->toMsg());
+    }
   }
-  size = waypoints_->random();
+  long size(waypoints_->random());
+  if (size < 0)
+  {
+    size = 0;
+  }
+  ROS_INFO_STREAM("[TaskGenerator::generate()] waypoints size: " << size);
   for (int i(0); i < size; i++)
   {
     geometry_msgs::PoseStamped pose;
     pose.pose.position.x = waypoint_x_->random();
     pose.pose.position.y = waypoint_y_->random();
+    ROS_INFO_STREAM("[TaskGenerator::generate()] waypoint "
+                    << i << ": (" << pose.pose.position.x << ", "
+                    << pose.pose.position.y << ")");
     msg.waypoints.poses.push_back(pose);
   }
   publisher_.publish(msg);
