@@ -2,8 +2,8 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.7 (2018-02-17)
+------------------
 * fixed utility initiation
 * Contributors: adrianohrl
 
