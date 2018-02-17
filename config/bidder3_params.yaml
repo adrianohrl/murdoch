@@ -1,1 +1,11 @@
 type: 'agent'
+utility:
+  expression:  'skill'
+skills:
+  size: 1
+  skill0:
+    resource: 'processor'
+    type: 1
+    level: 6
+    utility:
+      skill: 9.0

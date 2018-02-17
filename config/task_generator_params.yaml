@@ -1,6 +1,6 @@
 cycle_duration:
-  mean: 2
-  standard_deviation: 1
+  mean: 15
+  standard_deviation: 10
 waypoints:
   mean: 7
   standard_deviation: 5

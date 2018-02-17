@@ -1,3 +1,18 @@
 type: 'robot'
 max_size: 3
 queue_size: 5
+utility:
+  expression: 'skill'
+skills:
+  size: 2
+  skill0:
+    resource: 'camera'
+    type: 0
+    utility:
+      skill: 1.5
+  skill1:
+    resource: 'processor'
+    type: 1
+    level: 2
+    utility:
+      skill: 2.0
