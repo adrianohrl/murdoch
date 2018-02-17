@@ -2,8 +2,8 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.6 (2018-02-17)
+------------------
 * created and tested TaskGeneratorNode
 * created TaskGenerator class
 * Contributors: adrianohrl
