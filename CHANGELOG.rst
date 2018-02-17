@@ -2,6 +2,11 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fixed utility initiation
+* Contributors: adrianohrl
+
 0.0.6 (2018-02-17)
 ------------------
 * created and tested TaskGeneratorNode
