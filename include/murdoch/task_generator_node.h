@@ -1,12 +1,12 @@
 #ifndef _MURDOCH_TASK_GENERATOR_NODE_H_
 #define _MURDOCH_TASK_GENERATOR_NODE_H_
 
-#include "utilities/ros_node.h"
+#include <talmech/nodes/ros_node.h>
 #include "utilities/random_generator.h"
 
 namespace murdoch
 {
-class TaskGeneratorNode : public utilities::ROSNode
+class TaskGeneratorNode : public talmech::nodes::ROSNode
 {
 public:
   typedef boost::shared_ptr<TaskGeneratorNode> Ptr;

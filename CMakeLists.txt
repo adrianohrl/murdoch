@@ -30,7 +30,6 @@ set(CPP_FILES
   src/utilities/noisy_duration.cpp
   src/utilities/noisy_time.cpp
   src/utilities/probability_density_function.cpp
-  src/utilities/ros_node.cpp
   src/utilities/task_generator.cpp
 )
 
@@ -46,22 +45,21 @@ set(H_FILES
   include/utilities/noisy_time.h
   include/utilities/probability_density_function.h
   include/utilities/random_generator.h
-  include/utilities/ros_node.h
   include/utilities/task_generator.h
 )
 
-add_executable(agent_node
-  src/murdoch/agent_node.cpp
-  src/agent_node.cpp
+add_executable(task_executor_node
+  src/murdoch/task_executor_node.cpp
+  src/task_executor_node.cpp
   ${CPP_FILES}
 )
 
-add_dependencies(agent_node
+add_dependencies(task_executor_node
   ${catkin_EXPORTED_TARGETS}
   ${talmech_EXPORTED_TARGETS}
 )
 
-target_link_libraries(agent_node
+target_link_libraries(task_executor_node
   ${catkin_LIBRARIES}
   ${talmech_LIBRARIES}
 )

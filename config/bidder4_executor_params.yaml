@@ -1,0 +1,4 @@
+failure_probability: 0.075
+duration:
+  mean: 4.0
+  standard_deviation: 2.0

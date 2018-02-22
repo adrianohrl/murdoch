@@ -1,11 +1,44 @@
-type: 'agent'
+type: 'robot'
 utility:
-  expression:  'skill'
+  expression: 'distance skill'
+  distance: 1.2
 skills:
-  size: 1
+  size: 7
   skill0:
+    resource: 'camera'
+    type: 0
+    utility:
+      skill: 1.0
+  skill1:
+    resource: 'battery'
+    type: 2
+    level: 0.85
+    utility:
+      skill: 1.0
+  skill2:
     resource: 'processor'
     type: 1
-    level: 6
+    level: 1
     utility:
-      skill: 9.0
+      skill: 2
+  skill3:
+    resource: 'laserscan'
+    type: 0
+    utility:
+      skill: 0.4
+  skill4:
+    resource: 'strengh'
+    type: 2
+    level: 4.6
+    utility:
+      skill: 5.4
+  skill5:
+    resource: 'mobile'
+    type: 0
+    utility:
+      skill: 9.7
+  skill6:
+    resource: 'holonomic'
+    type: 0
+    utility:
+      skill: 10.0
