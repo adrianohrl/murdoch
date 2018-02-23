@@ -2,6 +2,11 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* removed agent_node
+* Contributors: adrianohrl
+
 0.0.7 (2018-02-17)
 ------------------
 * fixed utility initiation
