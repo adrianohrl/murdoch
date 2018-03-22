@@ -2,8 +2,8 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.9 (2018-03-22)
+------------------
 * changed skill for feature
 * changed skill for feature
 * Contributors: adrianohrl
