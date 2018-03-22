@@ -13,5 +13,11 @@
   <include file="$(find murdoch)/launch/bidder.launch" >
     <arg name="id" value="bidder3" />
   </include>
+  <include file="$(find murdoch)/launch/bidder.launch" >
+    <arg name="id" value="bidder4" />
+  </include>
+  <include file="$(find murdoch)/launch/bidder.launch" >
+    <arg name="id" value="bidder5" />
+  </include>
   <!--<include file="$(find alliance_test)/launch/rosbag_record.launch" />-->
 </launch>

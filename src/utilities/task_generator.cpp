@@ -6,14 +6,14 @@
 namespace utilities
 {
 TaskGenerator::TaskGenerator(const ros::NodeHandlePtr& nh,
-                             const NoisyDurationPtr& cycle_duration,
+                             const NoisyDurationPtr& cycle_duration, int max,
                              const NoisyLongPtr& waypoints,
                              const NoisyDoublePtr& waypoint_x,
                              const NoisyDoublePtr& waypoint_y,
-                             const NoisySkillsPtr& skills)
-    : RandomGenerator(cycle_duration), nh_(nh), counter_(1),
+                             const NoisyFeaturesPtr& features)
+    : RandomGenerator(cycle_duration, max), nh_(nh),
       waypoint_x_(waypoint_x), waypoints_(waypoints), waypoint_y_(waypoint_y),
-      skills_(skills), noisy_choice_(new NoisyBool())
+      features_(features)
 {
   publisher_ = nh_->advertise<talmech_msgs::Task>("/murdoch/task", 1);
 }
@@ -22,17 +22,17 @@ void TaskGenerator::generate()
 {
   talmech_msgs::Task msg;
   std::stringstream ss;
-  ss << "task" << counter_++;
+  ss << "task" << counter_;
   msg.id = ss.str();
   ROS_INFO_STREAM("[TaskGenerator::generate()] id: " << msg.id);
-  for (int i(0); i < skills_.size(); i++)
+  for (int i(0); i < features_.size(); i++)
   {
-    if (noisy_choice_->random())
-    {
-      NoisySkillPtr skill(skills_.at(i));
-      ROS_INFO_STREAM("[TaskGenerator::generate()] index: " << i << ", skill: " << *skill->skill_);
-      msg.skills.push_back(skill->toMsg());
-    }
+      NoisyFeaturePtr feature(features_.at(i));
+      if (feature->hasBeenChosen())
+      {
+        ROS_INFO_STREAM("[TaskGenerator::generate()] index: " << i << ", feature: " << *feature->feature_);
+        msg.features.push_back(feature->toMsg());
+      }
   }
   long size(waypoints_->random());
   if (size < 0)

@@ -1,9 +1,9 @@
 type: 'agent'
-auction_duration: 1.0
+auction_duration: 0.5
 renewal_rate: 1.5
 sorted_insertion: false
-reauction: false
+reauction: true
 bid_update: false
 topic_name: "/murdoch/task"
-queue_size: 10
-max_size: 4
+queue_size: 20
+max_size: 8

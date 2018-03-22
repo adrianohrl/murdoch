@@ -6,51 +6,63 @@
 #include "noisy_bool.h"
 #include "noisy_double.h"
 #include "noisy_long.h"
-#include <talmech/skill.h>
+#include <talmech/feature.h>
 
 namespace utilities
 {
-struct NoisySkill
+struct NoisyFeature
 {
 public:
-  typedef boost::shared_ptr<NoisySkill> Ptr;
-  typedef boost::shared_ptr<const NoisySkill> ConstPtr;
-  NoisySkill(const talmech::SkillPtr& skill, const NoisyDoublePtr& level)
-    : skill_(skill), level_(level)
-  {}
-  talmech::SkillPtr skill_;
-  NoisyDoublePtr level_;
-  talmech_msgs::Skill toMsg() const
+  typedef boost::shared_ptr<NoisyFeature> Ptr;
+  typedef boost::shared_ptr<const NoisyFeature> ConstPtr;
+  NoisyFeature(const talmech::FeaturePtr& feature, const NoisyDoublePtr& level, double probability)
+    : feature_(feature), level_(level), probability_(probability), distribution_(0.0, 1.0)
   {
-    skill_->setLevel(level_->random());
-    talmech_msgs::Skill msg(skill_->toMsg());
+    if (probability_ < 0.0 || probability_ > 1.0)
+    {
+      throw Exception("Invalid probability value. It must be in [0, 1].");
+    }
+  }
+  talmech::FeaturePtr feature_;
+  NoisyDoublePtr level_;
+  double probability_;
+  talmech_msgs::Feature toMsg() const
+  {
+    feature_->setLevel(level_->random());
+    talmech_msgs::Feature msg(feature_->toMsg());
     return msg;
   }
+  bool hasBeenChosen()
+  {
+    return distribution_(generator_) <= probability_;
+  }
+private:
+  std::default_random_engine generator_;
+  std::uniform_real_distribution<double> distribution_;
+
 };
-typedef NoisySkill::Ptr NoisySkillPtr;
-typedef NoisySkill::ConstPtr NoisySkillConstPtr;
-typedef std::vector<NoisySkillPtr> NoisySkillsPtr;
+typedef NoisyFeature::Ptr NoisyFeaturePtr;
+typedef NoisyFeature::ConstPtr NoisyFeatureConstPtr;
+typedef std::vector<NoisyFeaturePtr> NoisyFeaturesPtr;
 class TaskGenerator : public RandomGenerator
 {
 public:
   typedef boost::shared_ptr<TaskGenerator> Ptr;
   typedef boost::shared_ptr<const TaskGenerator> ConstPtr;
   TaskGenerator(const ros::NodeHandlePtr& nh,
-                const NoisyDurationPtr& cycle_duration,
+                const NoisyDurationPtr& cycle_duration, int max,
                 const NoisyLongPtr& waypoints,
                 const NoisyDoublePtr& waypoint_x,
                 const NoisyDoublePtr& waypoint_y,
-                const NoisySkillsPtr& skills);
+                const NoisyFeaturesPtr& features);
   virtual ~TaskGenerator() { publisher_.shutdown(); }
 private:
   ros::NodeHandlePtr nh_;
   ros::Publisher publisher_;
-  int counter_;
   NoisyLongPtr waypoints_;
   NoisyDoublePtr waypoint_x_;
   NoisyDoublePtr waypoint_y_;
-  NoisySkillsPtr skills_;
-  NoisyBoolPtr noisy_choice_;
+  NoisyFeaturesPtr features_;
   virtual void generate();
 };
 typedef TaskGenerator::Ptr TaskGeneratorPtr;

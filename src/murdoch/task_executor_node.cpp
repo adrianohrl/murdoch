@@ -4,7 +4,7 @@ namespace murdoch
 {
 TaskExecutorNode::TaskExecutorNode(const ros::NodeHandlePtr& nh,
                                    const ros::Rate& rate)
-    : ROSNode::ROSNode(nh, rate), failure_(new utilities::NoisyDouble(0.0, 1.0))
+    : ROSNode::ROSNode(nh, rate), distribution_(0.0, 1.0)
 {
   execute_sub_ = nh_->subscribe("contract/execute", 10,
                                 &TaskExecutorNode::executeCallback, this);
@@ -13,6 +13,7 @@ TaskExecutorNode::TaskExecutorNode(const ros::NodeHandlePtr& nh,
   feedback_pub_ =
       nh_->advertise<talmech_msgs::Contract>("contract/feedback", 10);
   result_pub_ = nh_->advertise<talmech_msgs::Contract>("contract/result", 10);
+  pose_pub_ = nh_->advertise<geometry_msgs::Pose>("pose", 1);
 }
 
 TaskExecutorNode::~TaskExecutorNode()
@@ -21,6 +22,7 @@ TaskExecutorNode::~TaskExecutorNode()
   cancel_sub_.shutdown();
   feedback_pub_.shutdown();
   result_pub_.shutdown();
+  pose_pub_.shutdown();
 }
 
 void TaskExecutorNode::readParameters()
@@ -46,6 +48,7 @@ void TaskExecutorNode::controlLoop()
       ROS_INFO_STREAM((contract->hasConcluded() ? "Concluding " : "Aborting ")
                       << *contract << " task execution...");
       result_pub_.publish(contract->toMsg());
+      pose_pub_.publish(contract->getFinalPose());
       it = contracts_.erase(it);
       continue;
     }
@@ -56,9 +59,12 @@ void TaskExecutorNode::controlLoop()
 
 void TaskExecutorNode::executeCallback(const talmech_msgs::Contract& msg)
 {
-  bool failure(failure_->probability(failure_->random()) <=
-               failure_probability_);
-  ContractPtr contract(new Contract(msg, duration_->random(), failure));
+  geometry_msgs::Pose final_pose;
+  if (!msg.task.waypoints.poses.empty())
+  {
+    final_pose = msg.task.waypoints.poses[msg.task.waypoints.poses.size() - 1].pose;
+  }
+  ContractPtr contract(new Contract(msg, duration_->random(), isFailure(), final_pose));
   ROS_INFO_STREAM("Starting " << *contract << " task execution...");
   contracts_.push_back(contract);
 }

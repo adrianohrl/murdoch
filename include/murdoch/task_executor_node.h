@@ -16,9 +16,9 @@ public:
   typedef boost::shared_ptr<Contract> Ptr;
   typedef boost::shared_ptr<const Contract> ConstPtr;
   Contract(const talmech_msgs::Contract& msg, const ros::Duration& duration,
-           bool failure)
+           bool failure, const geometry_msgs::Pose& final_pose)
       : timestamp_(ros::Time::now()), msg_(msg), duration_(duration),
-        failure_(failure)
+        failure_(failure), final_pose_(final_pose)
   {
   }
   virtual ~Contract() {}
@@ -35,6 +35,7 @@ public:
   {
     return msg_.status == talmech::auction::status::Ongoing;
   }
+  geometry_msgs::Pose getFinalPose() const { return final_pose_; }
   bool hasAborted() const
   {
     return msg_.status == talmech::auction::status::Aborted;
@@ -64,6 +65,7 @@ private:
   talmech_msgs::Contract msg_;
   ros::Duration duration_;
   bool failure_;
+  geometry_msgs::Pose final_pose_;
 };
 typedef Contract::Ptr ContractPtr;
 typedef Contract::ConstPtr ContractConstPtr;
@@ -84,14 +86,21 @@ private:
   ros::Subscriber cancel_sub_;
   ros::Publisher feedback_pub_;
   ros::Publisher result_pub_;
+  ros::Publisher pose_pub_;
   Contracts contracts_;
   utilities::NoisyDurationPtr duration_;
+  std::default_random_engine generator_;
+  std::uniform_real_distribution<double> distribution_;
   double failure_probability_;
   utilities::NoisyDoublePtr failure_;
   virtual void readParameters();
   virtual void controlLoop();
   void executeCallback(const talmech_msgs::Contract& msg);
   void cancelCallback(const talmech_msgs::Contract& msg);
+  bool isFailure()
+  {
+    return distribution_(generator_) <= failure_probability_;
+  }
 };
 typedef TaskExecutorNode::Ptr TaskExecutorNodePtr;
 typedef TaskExecutorNode::ConstPtr TaskExecutorNodeConstPtr;

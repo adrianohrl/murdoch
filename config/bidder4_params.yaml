@@ -1,29 +1,41 @@
 type: 'robot'
+queue_size: 10
+max_size: 2
 utility:
-  expression: 'distance skill'
-  distance: 0.45
-skills:
-  size: 4
-  skill0:
-    resource: 'strengh'
-    type: 2
-    level: 0.6
+  expression: 'distance feature'
+  distance: 0.3
+features:
+  size: 6
+  feature0:
+    resource: 'camera'
+    type: 0
     utility:
-      skill: 4.2
-  skill1:
+      feature: 5.0
+  feature1:
     resource: 'battery'
     type: 2
-    level: 0.85
+    level: 0.5
     utility:
-      skill: 1.2
-  skill2:
+      feature: 1.0
+  feature2:
     resource: 'processor'
     type: 1
     level: 1
     utility:
-      skill: 1.4
-  skill3:
+      feature: 4
+  feature3:
+    resource: 'laserscan'
+    type: 0
+    utility:
+      feature: 0.4
+  feature4:
+    resource: 'strength'
+    type: 2
+    level: 4.6
+    utility:
+      feature: 8.0
+  feature5:
     resource: 'mobile'
     type: 0
     utility:
-      skill: 1.5
+      feature: 1.2

@@ -18,14 +18,19 @@ public:
     ros::Time timestamp(ros::Time::now());
     if (timestamp_ < timestamp)
     {
-      timestamp_ = timestamp + cycle_duration_->random();
-      generate();
-      ROS_INFO_STREAM("Randomly generating ... (silence duration: " << (timestamp_ - timestamp).toSec() << "[s]).");
+      if (!isDone())
+      {
+        counter_++;
+        timestamp_ = timestamp + cycle_duration_->random();
+        ROS_INFO_STREAM("Randomly generating ... (silence duration: " << (timestamp_ - timestamp).toSec() << "[s]).");
+        generate();
+      }
     }
   }
+  bool isDone() const { return max_ >= 0 && counter_ >= max_; }
 protected:
-  RandomGenerator(const NoisyDurationPtr& cycle_duration)
-    : cycle_duration_(cycle_duration)
+  RandomGenerator(const NoisyDurationPtr& cycle_duration, int max = -1)
+    : cycle_duration_(cycle_duration), max_(max), counter_(0)
   {
     if (!cycle_duration_)
     {
@@ -33,6 +38,8 @@ protected:
     }
     timestamp_ = ros::Time::now() + cycle_duration_->random();
   }
+  int max_;
+  int counter_;
 private:
   virtual void generate() = 0;
   ros::Time timestamp_;

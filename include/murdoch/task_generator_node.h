@@ -18,7 +18,7 @@ protected:
   virtual void readParameters();
 private:
   utilities::RandomGeneratorPtr generator_;
-  virtual void controlLoop() { generator_->process(); }
+  virtual void controlLoop();
 };
 typedef TaskGeneratorNode::Ptr TaskGeneratorNodePtr;
 typedef TaskGeneratorNode::ConstPtr TaskGeneratorNodeConstPtr;

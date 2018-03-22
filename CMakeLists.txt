@@ -79,3 +79,17 @@ target_link_libraries(task_generator_node
   ${catkin_LIBRARIES}
   ${talmech_LIBRARIES}
 )
+
+add_executable(analytics_node
+  src/analytics_node.cpp
+)
+
+add_dependencies(analytics_node
+  ${catkin_EXPORTED_TARGETS}
+  ${talmech_EXPORTED_TARGETS}
+)
+
+target_link_libraries(analytics_node
+  ${catkin_LIBRARIES}
+  ${talmech_LIBRARIES}
+)

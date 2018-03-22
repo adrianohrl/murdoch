@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="params" default="$(find murdoch)/config/task_generator_params.yaml"/>
+  <arg name="record" default="true" />
+  <arg name="params" default="$(find murdoch)/config/task_generator_params.yaml" />
   <group ns="murdoch">
-    <node name="task_generator_node" pkg="murdoch" type="task_generator_node" output="screen" launch-prefix="valgrind">
+    <node name="task_generator_node" pkg="murdoch" type="task_generator_node" output="screen">
       <rosparam file="$(arg params)" command="load" />
     </node>
+    <node name="analytics_node" pkg="murdoch" type="analytics_node" output="screen" />
+    <node name="analytics_bag" pkg="rosbag" type="record"
+          args="-O $(find murdoch)/bag/analytics.bag /murdoch/task -e '/analytics/(.*)'" if="$(arg record)" />
   </group>
 </launch>
