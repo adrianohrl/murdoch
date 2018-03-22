@@ -76,3 +76,6 @@ CMakeLists.txt.*
 
 *low_level.launch
 *high_level.launch
+*.csv
+*.tex
+*.eps

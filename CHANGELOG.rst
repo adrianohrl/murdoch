@@ -2,6 +2,12 @@
 Changelog for package murdoch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* changed skill for feature
+* changed skill for feature
+* Contributors: adrianohrl
+
 0.0.8 (2018-02-23)
 ------------------
 * removed agent_node
